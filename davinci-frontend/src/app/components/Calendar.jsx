@@ -1,3 +1,4 @@
+"use client"
 import { Calendar } from "antd";
 
 export default function MyCalendar() {
