@@ -1,9 +1,0 @@
-.card {
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    padding: 24px;
-    flex: 1 0 45%; /* Adjust the width to fit both cards */
-    margin: 10px;
-    box-sizing: border-box;
-}

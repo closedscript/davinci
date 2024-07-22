@@ -1,7 +1,7 @@
 import Image from "next/image";
 import MyCalendar from "./components/Calendar";
 import SbbApi from "./components/SbbApi";
-import Card from "./components/Card";
+import Card from "../../davinci/davinci-frontend/src/app/components/Card";
 import { Calendar } from "antd";
 import styles from './page.module.css';
 
