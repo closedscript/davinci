@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from "react";
 import styles from '../styles/sbb.module.css';
 
 export default function SbbApi() {
-    const [words, setWords] = useState([]);
+    const [stationboard, setStationboard] = useState([]);
 
     useEffect(() => {
         fetch("https://transport.opendata.ch/v1/stationboard?station=Winterthur&limit=15")
             .then(res => res.json())
-            .then(data => setWords(data))
+            .then(data => setStationboard(data.stationboard || []))
             .catch(error => console.error('Error fetching connections:', error));
     }, []);
 
@@ -29,53 +29,41 @@ export default function SbbApi() {
     };
 
     return (
-        
-            <main className={styles.main}>
-                <div className={styles.connectionInput}>
-                    <h2>Sbb Fahrplan</h2>
-                    {/* <p>Verbindung suchen:</p>
-                    <p>Von: </p>
-                    <input type="text"/>
-                    <p>Nach:</p>
-                    <input type="text"/>
-                    <br/>
-                    <button>Suchen</button>
-                    <br/> */}
+        <div className={styles.connectionInput}>
+            <h2 className={styles.cardTitle}>SBB Fahrplan</h2>
+            <div className={styles.container}>
+                <table className={styles["styled-table"]}>
+                    <thead>
+                        <tr>
+                            <th>Von</th>
+                            <th>Abfahrtszeit</th>
+                            <th>Gleis</th>
+                            <th>Nach</th>
+                            <th>Ankunftszeit</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {stationboard.map((item, idx) => {
+                            const arrivalTime = item.passList.find(
+                                p => p.station.name === item.to
+                            )?.arrival;
+                            const platform = item.stop.platform.replace(/!/g, '');
 
-                    <div className={styles.container}>
-                        <table className={styles["styled-table"]}>
-                            <thead>
-                            <tr>
-                                <th>Von</th>
-                                <th>Abfahrtszeit</th>
-                                <th>Gleis</th>
-                                <th>Nach</th>
-                                <th>Ankunftszeit</th>
-                                <th>Name</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {words.stationboard && words.stationboard.map((stationboard, idx) => {
-                                const arrivalTime = stationboard.passList.find(
-                                    p => p.station.name === stationboard.to
-                                )?.arrival;
-                                const platform = stationboard.stop.platform.replace(/!/g, '');
-
-                                return (
-                                    <tr key={idx}>
-                                        <td>{stationboard.stop.station.name}</td>
-                                        <td>{formatTimeWithoutSeconds(roundToNextMinute(new Date(stationboard.stop.departure)))}</td>
-                                        <td>{platform}</td>
-                                        <td>{stationboard.to}</td>
-                                        <td>{formatTimeWithoutSeconds(roundToNextMinute(new Date(arrivalTime)))}</td>
-                                        <td>{stationboard.category + stationboard.number}</td>
-                                    </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </main>
+                            return (
+                                <tr key={idx}>
+                                    <td>{item.stop.station.name}</td>
+                                    <td>{formatTimeWithoutSeconds(roundToNextMinute(new Date(item.stop.departure)))}</td>
+                                    <td>{platform}</td>
+                                    <td>{item.to}</td>
+                                    <td>{arrivalTime ? formatTimeWithoutSeconds(roundToNextMinute(new Date(arrivalTime))) : 'N/A'}</td>
+                                    <td>{item.category + item.number}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     );
 }
