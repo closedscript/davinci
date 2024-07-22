@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-clock/dist/Clock.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./nightclock.module.css"
+import "../styles/nightclock.module.css"
 
 
 const Clock = dynamic(() => import('react-clock'), { ssr: false });
