@@ -1,0 +1,9 @@
+
+.night-clock {
+    height: 20rem;
+    background: rgba(0, 0, 0, 0.8); /* Halbtransparentes Schwarz */
+    padding: 20px;
+    border-radius: 15px; /* Abgerundete Ecken */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Schatten für 3D-Effekt */
+    display: inline-block; /* Um die Uhr zentriert darzustellen */
+}

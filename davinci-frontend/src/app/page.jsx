@@ -1,13 +1,23 @@
-import Image from "next/image";
-import MyCalendar from "./components/Calendar";
-import SbbApi from "./components/SbbApi";
+"use client"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import Uhr from "../app/components/Uhr";
+import BackgroundAnimation from "@/app/Backgrounds/Day";
+import SbbApi from "@/app/components/SbbApi";
 
 export default function Home() {
-  return (
-    <div>
-      <h1>Mr. Informius</h1>
-      <MyCalendar />
-      <SbbApi></SbbApi>
-    </div>
-  );
+    return (
+        <main>
+            <BackgroundAnimation/>
+
+
+
+            <div className={"react-clock"}>
+                <Uhr></Uhr>
+
+            </div>
+
+        </main>
+    )
+        ;
 }

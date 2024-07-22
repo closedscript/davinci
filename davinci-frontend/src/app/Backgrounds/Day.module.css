@@ -1,4 +1,4 @@
-/* global.css */
+/* Day.module.css */
 @keyframes move-background {
     from {
         -webkit-transform: translate3d(0px, 0px, 0px);
@@ -8,7 +8,7 @@
     }
 }
 
-.background-container {
+.backgroundContainer {
     position: fixed;
     top: 0;
     left: 0;
@@ -63,15 +63,10 @@
     animation: move-background 150s linear infinite;
 }
 
-img {
+.moonImage {
     height: 70vh;
     width: 70vh;
     position: absolute;
     z-index: 3;
     right: 20px;
-}
-
-body{
-    margin: 0;
-    padding: 0;
 }
