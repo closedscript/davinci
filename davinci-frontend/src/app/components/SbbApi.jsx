@@ -18,14 +18,14 @@ export default function SbbApi() {
             <main className={styles.main}>
                 <div className={styles.connectionInput}>
                     <h2>Sbb Fahrplan</h2>
-                    <p>Verbindung suchen:</p>
+                    {/* <p>Verbindung suchen:</p>
                     <p>Von: </p>
                     <input type="text"/>
                     <p>Nach:</p>
                     <input type="text"/>
                     <br/>
                     <button>Suchen</button>
-                    <br/>
+                    <br/> */}
 
                     <div className={styles.container}>
                         <table className={styles["styled-table"]}>
