@@ -7,14 +7,29 @@ export default function SbbApi() {
     const [words, setWords] = useState([]);
 
     useEffect(() => {
-        fetch("https://transport.opendata.ch/v1/connections?from=Winterthur&to=Zurich")
+        fetch("https://transport.opendata.ch/v1/stationboard?station=Winterthur&limit=15")
             .then(res => res.json())
             .then(data => setWords(data))
             .catch(error => console.error('Error fetching connections:', error));
     }, []);
 
+    const roundToNextMinute = (date) => {
+        let newDate = new Date(date);
+        newDate.setSeconds(0, 0);
+        if (date.getSeconds() >= 30) {
+            newDate.setMinutes(newDate.getMinutes() + 1);
+        }
+        return newDate;
+    };
+
+    const formatTimeWithoutSeconds = (date) => {
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
     return (
-       
+        
             <main className={styles.main}>
                 <div className={styles.connectionInput}>
                     <h2>Sbb Fahrplan</h2>
@@ -33,25 +48,30 @@ export default function SbbApi() {
                             <tr>
                                 <th>Von</th>
                                 <th>Abfahrtszeit</th>
-                                <th>Gleis Abfahrt</th>
+                                <th>Gleis</th>
                                 <th>Nach</th>
                                 <th>Ankunftszeit</th>
-                                <th>Gleis Ankunft</th>
+                                <th>Name</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {
-                                words.connections && words.connections.map((connection, idx) => (
+                            {words.stationboard && words.stationboard.map((stationboard, idx) => {
+                                const arrivalTime = stationboard.passList.find(
+                                    p => p.station.name === stationboard.to
+                                )?.arrival;
+                                const platform = stationboard.stop.platform.replace(/!/g, '');
+
+                                return (
                                     <tr key={idx}>
-                                        <td>{connection.from.station.name}</td>
-                                        <td>{new Date(connection.from.departure).toLocaleTimeString()}</td>
-                                        <td>{connection.from.platform}</td>
-                                        <td>{connection.to.station.name}</td>
-                                        <td>{new Date(connection.to.arrival).toLocaleTimeString()}</td>
-                                        <td>{connection.to.platform}</td>
+                                        <td>{stationboard.stop.station.name}</td>
+                                        <td>{formatTimeWithoutSeconds(roundToNextMinute(new Date(stationboard.stop.departure)))}</td>
+                                        <td>{platform}</td>
+                                        <td>{stationboard.to}</td>
+                                        <td>{formatTimeWithoutSeconds(roundToNextMinute(new Date(arrivalTime)))}</td>
+                                        <td>{stationboard.category + stationboard.number}</td>
                                     </tr>
-                                ))
-                            }
+                                );
+                            })}
                             </tbody>
                         </table>
                     </div>
